@@ -1,8 +1,8 @@
 import React from 'react';
 import {render} from 'react-dom'; //importing only the render method 
-import StorePicker from './components/StorePicker'; //relative path
+import App from './components/App'; 
 import './css/style.css';
 
-render(<StorePicker />, document.querySelector('#main'));
+render(<App />, document.querySelector('#main'));
 
 
