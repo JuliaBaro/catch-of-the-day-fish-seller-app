@@ -4,6 +4,7 @@ import Order from './Order';
 import Inventory from './Inventory';
 import sampleFishes from "../sample-fishes";
 import Fish from "./Fish";
+import base from '../base';
 
 class App extends React.Component {
 
@@ -11,6 +12,20 @@ class App extends React.Component {
         fishes: {},
         order: {}
     };
+
+    componentDidMount() {
+        //console.log("MOUNTED!");
+        const { params } = this.props.match;
+        this.ref = base.syncState(`${params.storeId}/fishes`, {
+            context: this,
+            state: 'fishes'
+        }); //this is not an input ref, it is different - sync with the name of the store
+    };
+
+    componentWillUnmount() {
+        //console.log("UNMOUNTING!");
+        base.removeBinding(this.ref);
+    }
 
     addFish = fish => {
         // 1. take a copy of the existing state - do not mutate state directly
@@ -59,4 +74,8 @@ class App extends React.Component {
 }
 
 export default App;
+
+//We need to mirror our Fish state over to our Firebase. 
+//In order to do that we need to wait until the App component is on the page.
+//Then we get into lifecycle methods. 
 
