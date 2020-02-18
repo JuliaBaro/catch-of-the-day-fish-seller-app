@@ -13,14 +13,32 @@ class App extends React.Component {
         order: {}
     };
 
+    //When the component mounts we are checking localStorage, we are setting that to state and we are setting up our sync state.
+    //We are trying to render out the order before the fihes exist - this causes error.
     componentDidMount() {
         //console.log("MOUNTED!");
         const { params } = this.props.match;
+        //first reinstate our localStorage
+        const localStorageRef = localStorage.getItem(params.storeId);
+        //console.log(localStorageRef);
+        if(localStorageRef) {
+            //error debug with console.log - Cannot read property 'status' of undefined
+            //console.log('RESTORING IT');
+            console.log(JSON.parse(localStorageRef));
+            this.setState({ order: JSON.parse(localStorageRef) }); //turn item back from string into object
+        }
         this.ref = base.syncState(`${params.storeId}/fishes`, {
             context: this,
             state: 'fishes'
         }); //this is not an input ref, it is different - sync with the name of the store
-    };
+    }
+
+    //it takes no arguments
+    componentDidUpdate() {
+        //console.log('IT IS UPDATED!');
+        console.log(this.state.order);
+        localStorage.setItem(this.props.match.params.storeId, JSON.stringify(this.state.order)); //this is how I get the name of the store I am in (key, value)
+    }
 
     componentWillUnmount() {
         //console.log("UNMOUNTING!");
