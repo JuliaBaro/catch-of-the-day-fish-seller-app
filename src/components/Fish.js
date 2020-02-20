@@ -1,16 +1,25 @@
 import React from 'react';
+import PropTypes from "prop-types";
 import { formatPrice } from '../helpers';
 
 class Fish extends React.Component {
+    static propTypes = {
+        details: PropTypes.shape({
+            image: PropTypes.string,
+            name: PropTypes.string,
+            desc: PropTypes.string, 
+            status: PropTypes.string,
+            price: PropTypes.number,
+        }),//this is cheating: PropTypes.object (it )
+        addToOrder: PropTypes.func,
+    } //it lives on the mama fish component
+    //any time you write this.props.something you should stop and write a PropType
 
     handleClick = () => {
         this.props.addToOrder(this.props.index);
     } //you can do this function inline after onClick
 
     render() {
-        //const image = this.props.details.image;
-        //const name = this.props.details.name;
-        //the above variables destructured
         const { image, name, price, desc, status } = this.props.details
         const isAvailable = status === 'available';
         return (

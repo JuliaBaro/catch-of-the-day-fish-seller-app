@@ -1,10 +1,11 @@
-import React from 'react';
-import Header from './Header';
-import Order from './Order';
-import Inventory from './Inventory';
+import React from "react";
+import PropTypes from "prop-types";
+import Header from "./Header";
+import Order from "./Order";
+import Inventory from "./Inventory";
 import sampleFishes from "../sample-fishes";
 import Fish from "./Fish";
-import base from '../base';
+import base from "../base";
 
 class App extends React.Component {
 
@@ -12,6 +13,10 @@ class App extends React.Component {
         fishes: {},
         order: {}
     };
+
+    static propTypes = {
+        match: PropTypes.object
+    }
 
     //When the component mounts we are checking localStorage, we are setting that to state and we are setting up our sync state.
     //We are trying to render out the order before the fihes exist - this causes error.
@@ -98,7 +103,7 @@ class App extends React.Component {
         return (
             <div className="catch-of-the-day">
                 <div className="menu">
-                    <Header tagline="Fresh Seafood Market" />
+                    <Header tagline="Fresh Seafood Market"/>
                     <ul className="fishes">
                         {Object.keys(this.state.fishes).map(key => 
                             <Fish 
@@ -131,7 +136,4 @@ class App extends React.Component {
 
 export default App;
 
-//We need to mirror our Fish state over to our Firebase. 
-//In order to do that we need to wait until the App component is on the page.
-//Then we get into lifecycle methods. 
 
